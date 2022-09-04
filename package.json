@@ -1,0 +1,23 @@
+{
+  "name": "ecservside",
+  "version": "1.0.0",
+  "description": "ecommerce dress rent website server side",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node ./server/seederScript.js"
+  },
+  "author": "nikaSaakadze",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "concurrently": "^6.1.0",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "mongoose": "^6.5.2",
+    "nodemon": "^2.0.16"
+  }
+}
