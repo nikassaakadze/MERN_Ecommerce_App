@@ -35,3 +35,7 @@ body{
 input, button{
   font-family: "BPG Arial Caps", sans-serif;
 }
+
+label::before{
+  display: none !important;
+}

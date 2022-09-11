@@ -25,7 +25,7 @@ const addProduct =  (req, res) => {
 
   newProduct.save()
   .then(() => res.json(`Product - ${headline} added`))
-  .catch(err)
+  .catch(err => {res.send(err)})
 }
 
 module.exports = {getAllProducts, addProduct}

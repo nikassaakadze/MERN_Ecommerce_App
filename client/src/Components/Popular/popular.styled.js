@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Grid = styled.div`
-  border: 2px solid #F5B7B1;
+  border: 1px solid #D5D8DC;
   border-radius: 15px;
   flex: 1;
   margin-left: 35px;

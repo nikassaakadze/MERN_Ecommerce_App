@@ -11,7 +11,7 @@ const productsSchema = mongoose.Schema({
     type: String
   },
   hero: {
-    type: String
+    type: Array
   },
   location:{
     type: String
@@ -24,6 +24,9 @@ const productsSchema = mongoose.Schema({
   },
   price:{
     type: Number
+  },
+  title:{
+    type: String
   }
 })
 

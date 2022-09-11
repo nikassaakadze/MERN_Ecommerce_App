@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { Wrapper } from './addItem.styled'
 import Navigation from './Navigation'
-import { Select } from 'antd';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { InputNumber, Select } from 'antd';
+import { Button, Checkbox, Form, Input, message  } from 'antd';
 import { Typography } from 'antd';
 import * as ActionTypes from '../../Redux/Actions/uploadProduct'
 import {useDispatch} from 'react-redux'
+import {CameraOutlined} from '@ant-design/icons'
 
 function AddItem() {
 
-  const [image, setImage]  = useState(0)
+  const [image, setImage]  = useState([])
+
+  const info = () => {
+    message.info('10 სურათზე მეტის ატვირთვა შეზღუდულია');
+  };
 
   const { Title } = Typography;
   const dispatch = useDispatch()
@@ -21,6 +26,8 @@ function AddItem() {
   };
 
   const onFinish = (values) => {
+
+    console.log(values)
     if(image){
       dispatch(ActionTypes.uploadProduct(image, values))
     }
@@ -30,7 +37,11 @@ function AddItem() {
   };
 
   const isImageSelect = (event) => {
-    setImage(event.target.files[0])
+    if(image.length <= 9){
+      setImage([...image, event.target.files])
+    }else{
+      info()
+    }
   }
 
   return (
@@ -50,46 +61,54 @@ function AddItem() {
 
             <fieldset>
               <Title level={5}>შეავსეთ დეტალები</Title> 
+
                 <Form.Item 
                   label="სათაური" 
                   name="headline" 
                   rules={[{ required: true, message: 'სათაურის ველი ცარიელია',},]}>
                   <Input className='form-itm' />
                 </Form.Item>
+
                 <Form.Item 
                   label="კატეგორია" 
                   name="category"
                   rules={[{ required: true, message: 'გთხოვთ მიუთითოთ კატეგორია',},]}>
                   <Select style={{ width: '100%' }} onChange={handleChange}>
-                    <Option value="accessories  ">საღამოს კაბა</Option>
-                    <Option value="evening_dress">კაბა</Option>
-                    <Option value="just_dress">ქალის პერანგი</Option>
-                    <Option value="men_clother">ქვედა ბოლო</Option>
-                    <Option value="skirt">ქალის შარვალი</Option>
-                    <Option value="womans_shirt">ქალის ფეხსაცმელი</Option>
-                    <Option value="oreuli">ორეული</Option>
-                    <Option value="womans_shoes">აქსესუარები</Option>
+                    <Option value="საღამოს კაბა">საღამოს კაბა</Option>
+                    <Option value="კაბა">კაბა</Option>
+                    <Option value="ქალის პერანგი">ქალის პერანგი</Option>
+                    <Option value="ქვედა ბოლო">ქვედა ბოლო</Option>
+                    <Option value="ქალის შარვალი">ქალის შარვალი</Option>
+                    <Option value="ქალის ფეხსაცმელი">ქალის ფეხსაცმელი</Option>
+                    <Option value="ორეული">ორეული</Option>
+                    <Option value="აქსესუარები">აქსესუარები</Option>
                   </Select>
                 </Form.Item>
+
                 <Form.Item 
                   name="title" 
                   label="აღწერა" 
                   rules={[{ required: true, message: 'აღწერის ველი ცარიელია',},]}>
-                  <TextArea rows={4} placeholder="maxLength is 6" />
+                  <TextArea rows={4} placeholder="პროდუქტის აღწერა" />
                 </Form.Item>
             </fieldset>
 
             <fieldset className='img-up'>
               <div className="image-upload">
-                {/* <CameraAltIcon /> */}
-                <h5>ფოტოს ატვირთვა</h5>
-                <h6>მაქსიმუმ 10 ფოტო</h6>
-                <label className="imguploadinput" htmlFor="imageUpload" >სურათის არჩევა</label>
+                <label className="imguploadinput" htmlFor="imageUpload" >
+                <CameraOutlined htmlFor="imageUpload" />
+                  <h5>ფოტოს ატვირთვა</h5>
+                  <h6>მაქსიმუმ 10 ფოტო</h6>
+                </label>
                 <input id="imageUpload" type="file" hidden onChange={(e) => isImageSelect(e)} />
-                <div className="image-list">
-                  <div className="img-card">
-                    <img src={image ? URL.createObjectURL(image) : "" } alt="" />
-                  </div>
+                <div className="image-list">  
+                {
+                  ! image.length == 0 ? image.map(imageItem => (
+                    <div className="img-card">
+                      <img src={URL.createObjectURL(imageItem[0])} alt="" />
+                    </div>
+                  )) : <></>
+                }
                 </div>
               </div>
             </fieldset>
@@ -97,24 +116,16 @@ function AddItem() {
             <fieldset>
               <Title level={5}>ფასი</Title>
               <Form.Item name="price" label="მიუთითეთ ფასი" rules={[{ required: true, message: 'გთხოვთ მიუთითოთ ფასი',},]}>
-                <Input />
+                <InputNumber className='price_input' prefix="₾" style={{ width: '100%' }} />
               </Form.Item>
               <Title level={5}>საკონტაქტო ინფორმაცია</Title>
-              <Form.Item label="მიუთითეთ მდებარეობა" name="location">
-                <Select defaultValue="1" style={{ width: '100%' }} onChange={handleChange}>
-                  <Option value="1">თბილისი</Option>
-                  <Option value="2">გორი</Option>
-                  <Option value="3">ქუთაისი</Option>
+              <Form.Item label="მიუთითეთ მდებარეობა" name="location" rules={[{ required: true, message: 'გთხოვთ მიუთითოთ მდებარეობა',},]}>
+                <Select style={{ width: '100%' }} onChange={handleChange}>
+                  <Option value="თბილისი">თბილისი</Option>
+                  <Option value="გორი">გორი</Option>
+                  <Option value="ქუთაისი">ქუთაისი</Option>
                 </Select>
               </Form.Item>
-              <div className="name-number">
-                <Form.Item rules={[{ required: true, message: 'მიუთითეთ სახელი',},]} label="სახელი" name="username ">
-                  <Input />
-                </Form.Item>
-                <Form.Item rules={[{ required: true, message: 'მიუთითეთ მობილური',},]} label="ტელეფონის ნომერი" name="mobile_number">
-                  <Input />
-                </Form.Item>
-              </div>
             </fieldset>
 
             <Button className='item-add-btn' type="primary" htmlType="submit">

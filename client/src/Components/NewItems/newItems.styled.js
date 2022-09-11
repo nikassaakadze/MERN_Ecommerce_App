@@ -4,7 +4,7 @@ export const Layout = styled.div`
   max-width: 1100px;
   margin: 30px auto;
   background: white;
-  border: 2px solid #F5B7B1;
+  border: 1px solid #D5D8DC;
   border-radius: 20px;
   padding-bottom: 20px;
   .layout-headline{

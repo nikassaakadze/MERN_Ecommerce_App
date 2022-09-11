@@ -33,6 +33,8 @@ export const Wrapper = styled.div`
       border-radius: 15px;
       background-color: white;
       margin-top: 20px;
+      .price_input{
+      }
       label{
           font-size: 12px;
           color: #808B96;
@@ -77,11 +79,32 @@ export const Wrapper = styled.div`
         align-items: center;
         flex-direction: column;
         justify-content: center;
+        .imguploadinput{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          h5{
+            font-size: 10px;
+            color: black;
+          }
+          .anticon{
+            color: black;
+            font-size: 25px;
+          }
+        }
         .image-list{
+          display: flex;
+          width: 100%;
           .img-card{
             width: 60px;
             height: 80px;
-            border: 1px solid #999;
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+            background: black;
+            padding: 3px;
+            margin: 0 3px;
+            border-radius: 5px;
             img{
               width: 100%;
               height: 100%;

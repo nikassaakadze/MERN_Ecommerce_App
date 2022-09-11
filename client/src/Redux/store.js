@@ -5,10 +5,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
   // import reducers
   import { getProductsReducer } from "./Reducers/productReducer";
+  import { userRegistrationReducer } from "./Reducers/userReducer";
 
   //combine reducers
   const reducer = combineReducers({
-    productReducer: getProductsReducer
+    productReducer: getProductsReducer,
+    registerUser: userRegistrationReducer
    });
 
   //apply middleware
